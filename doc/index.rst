@@ -1,4 +1,10 @@
-# 1. Overview of the  pythonOCC SWIG files generation process
+
+pythonocc-generator
+=====================
+
+
+Overview of the  pythonOCC SWIG files generation process
+--------------------------------------------------------
 
 The pythonocc-generator creates automatically a python wrapper for the OCE development library. The wrapper is a set of SWIG files that need to be compiled using cmake/gcc or any other C++ compiler.
 
@@ -14,10 +20,8 @@ The underlying process regarding this generation is:
 
 This interface is known as pythonocc-core, basically a python packagenamed OCC:
 
-```
-$ python
->>> import OCC
-```
+    $ python
+    >>> import OCC
 
 As a result, the pythonocc-core API is:
 
@@ -28,7 +32,10 @@ a compileable/usable python package. No other class/method naming transformation
 
 So the deal is just: provide you with an access to the OCE world using python. Nothing more.
 
-# 2. How does it work
+
+How does it work
+----------------
+
 
 ## 2.1. Wrapper structure
 
@@ -46,7 +53,7 @@ OCE adopts the following structure
 
 In other words, a framework is collection of toolkits, which are collections of Modules. There are about 5 frameworks, 40 toolkits, 200 Modules (I should count precisely, it's only an order of magnitude). Each Toolkit name starts with 'TK'. The list of all available toolkits can be found here: https://github.com/tpaviot/oce/tree/master/adm/cmake.
 
-For instance, the **Foundation** framework is composed of 3 Toolkits: TKernel, TKMath and TKAdvTools. The TKernel toolkit is composed of the following modules (see https://github.com/tpaviot/oce/blob/master/adm/cmake/TKernel/CMakeLists.txt): FSD, MMgt, OSD,	Plugin,	Quantity, Resource,	SortTools, Standard,
+For instance, the **Foundation** framework is composed of 3 Toolkits: TKernel, TKMath and TKAdvTools. The TKernel toolkit is composed of the following modules (see https://github.com/tpaviot/oce/blob/master/adm/cmake/TKernel/CMakeLists.txt): FSD, MMgt, OSD,   Plugin, Quantity, Resource, SortTools, Standard,
 StdFail, Storage, TColStd, TCollection, TShort, Units, UnitsAPI, IncludeLibrary, Dico, NCollection,
 Message. That is to say: 19 different modules for the TKernel toolkit.
 
@@ -76,28 +83,30 @@ The python wrapper for OCE is a python package composed of several python module
 
 Each OCE module is wrapped to a python module. As a consequence, the python wrapper for OCE is a python package including about 200 different modules. Each module can be imported using its name. For instance, to use the BRepPrimAPI module, just:
 
-```
->>> import OCC.Core.BRepPrimAPI
-```
+.. highlight:: python
+
+    import OCC.Core.BRepPrimAPI
+
 
 All OCE classes of the BRepPrimAPI OCE module can be accessed using python:
 
-```
->>> dir(OCC.Core.BRepPrimAPI)
-['BRepPrimAPI_MakeBox', 'BRepPrimAPI_MakeBox_swigregister', 'BRepPrimAPI_MakeCone',
-'BRepPrimAPI_MakeCone_swigregister',
-'BRepPrimAPI_MakeCylinder', 'BRepPrimAPI_MakeCylinder_swigregister', 'BRepPrimAPI_MakeHalfSpace',
-'BRepPrimAPI_MakeHalfSpace_swigregister', 'BRepPrimAPI_MakeOneAxis', 'BRepPrimAPI_MakeOneAxis_swigregister',
-'BRepPrimAPI_MakePrism', 'BRepPrimAPI_MakePrism_swigregister', 'BRepPrimAPI_MakeRevol',
-'BRepPrimAPI_MakeRevol_swigregister', 'BRepPrimAPI_MakeRevolution', 'BRepPrimAPI_MakeRevolution_swigregister',
-'BRepPrimAPI_MakeSphere', 'BRepPrimAPI_MakeSphere_swigregister', 'BRepPrimAPI_MakeSweep',
-'BRepPrimAPI_MakeSweep_swigregister', 'BRepPrimAPI_MakeTorus', 'BRepPrimAPI_MakeTorus_swigregister',
-'BRepPrimAPI_MakeWedge', 'BRepPrimAPI_MakeWedge_swigregister', 'OCC', 'SwigPyIterator',
-'SwigPyIterator_swigregister', '_BRepPrimAPI', '__builtins__', '__doc__', '__file__', '__name__',
-'__package__', '_newclass', '_object', '_swig_getattr', '_swig_getattr_nondynamic', '_swig_property',
-'_swig_repr', '_swig_setattr', '_swig_setattr_nondynamic', '_swig_setattr_nondynamic_method',
-'new_instancemethod']
-```
+.. highlight:: python
+
+    >>> dir(OCC.Core.BRepPrimAPI)
+    ['BRepPrimAPI_MakeBox', 'BRepPrimAPI_MakeBox_swigregister', 'BRepPrimAPI_MakeCone',
+    'BRepPrimAPI_MakeCone_swigregister',
+    'BRepPrimAPI_MakeCylinder', 'BRepPrimAPI_MakeCylinder_swigregister', 'BRepPrimAPI_MakeHalfSpace',
+    'BRepPrimAPI_MakeHalfSpace_swigregister', 'BRepPrimAPI_MakeOneAxis', 'BRepPrimAPI_MakeOneAxis_swigregister',
+    'BRepPrimAPI_MakePrism', 'BRepPrimAPI_MakePrism_swigregister', 'BRepPrimAPI_MakeRevol',
+    'BRepPrimAPI_MakeRevol_swigregister', 'BRepPrimAPI_MakeRevolution', 'BRepPrimAPI_MakeRevolution_swigregister',
+    'BRepPrimAPI_MakeSphere', 'BRepPrimAPI_MakeSphere_swigregister', 'BRepPrimAPI_MakeSweep',
+    'BRepPrimAPI_MakeSweep_swigregister', 'BRepPrimAPI_MakeTorus', 'BRepPrimAPI_MakeTorus_swigregister',
+    'BRepPrimAPI_MakeWedge', 'BRepPrimAPI_MakeWedge_swigregister', 'OCC', 'SwigPyIterator',
+    'SwigPyIterator_swigregister', '_BRepPrimAPI', '__builtins__', '__doc__', '__file__', '__name__',
+    '__package__', '_newclass', '_object', '_swig_getattr', '_swig_getattr_nondynamic', '_swig_property',
+    '_swig_repr', '_swig_setattr', '_swig_setattr_nondynamic', '_swig_setattr_nondynamic_method',
+    'new_instancemethod']
+
 
 In your OCC package path, you can see that each python module (eg Adaptor2d.py) comes with a dynamic library (*_Adaptor2d.so*).
 
@@ -127,26 +136,26 @@ Each of this library is dynamically linked to the OCE libraries on which it depe
 On Linux:
 ```
 $ ldd _BRepPrimAPI.so
-	linux-vdso.so.1 =>  (0x00007ffded1fd000)
-	libpython2.7.so.1.0 => /usr/lib/x86_64-linux-gnu/libpython2.7.so.1.0 (0x00007f5a054f3000)
-	libTKernel.so.9 => /usr/local/lib/libTKernel.so.9 (0x00007f5a050ac000)
-	libTKMath.so.9 => /usr/local/lib/libTKMath.so.9 (0x00007f5a04d24000)
-	libTKPrim.so.9 => /usr/local/lib/libTKPrim.so.9 (0x00007f5a04aca000)
-	libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f5a047c6000)
-	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f5a045b0000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5a041eb000)
-	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f5a03fcd000)
-	libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f5a03db4000)
-	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f5a03bb0000)
-	libutil.so.1 => /lib/x86_64-linux-gnu/libutil.so.1 (0x00007f5a039ad000)
-	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f5a036a7000)
-	libTKBRep.so.9 => /usr/local/lib/libTKBRep.so.9 (0x00007f5a033cd000)
-	libTKG2d.so.9 => /usr/local/lib/libTKG2d.so.9 (0x00007f5a03159000)
-	libTKGeomBase.so.9 => /usr/local/lib/libTKGeomBase.so.9 (0x00007f5a02a6b000)
-	libTKG3d.so.9 => /usr/local/lib/libTKG3d.so.9 (0x00007f5a0274d000)
-	libTKTopAlgo.so.9 => /usr/local/lib/libTKTopAlgo.so.9 (0x00007f5a022df000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007f5a05c91000)
-	libTKGeomAlgo.so.9 => /usr/local/lib/libTKGeomAlgo.so.9 (0x00007f5a01bb5000)
+    linux-vdso.so.1 =>  (0x00007ffded1fd000)
+    libpython2.7.so.1.0 => /usr/lib/x86_64-linux-gnu/libpython2.7.so.1.0 (0x00007f5a054f3000)
+    libTKernel.so.9 => /usr/local/lib/libTKernel.so.9 (0x00007f5a050ac000)
+    libTKMath.so.9 => /usr/local/lib/libTKMath.so.9 (0x00007f5a04d24000)
+    libTKPrim.so.9 => /usr/local/lib/libTKPrim.so.9 (0x00007f5a04aca000)
+    libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f5a047c6000)
+    libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f5a045b0000)
+    libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5a041eb000)
+    libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f5a03fcd000)
+    libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f5a03db4000)
+    libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f5a03bb0000)
+    libutil.so.1 => /lib/x86_64-linux-gnu/libutil.so.1 (0x00007f5a039ad000)
+    libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f5a036a7000)
+    libTKBRep.so.9 => /usr/local/lib/libTKBRep.so.9 (0x00007f5a033cd000)
+    libTKG2d.so.9 => /usr/local/lib/libTKG2d.so.9 (0x00007f5a03159000)
+    libTKGeomBase.so.9 => /usr/local/lib/libTKGeomBase.so.9 (0x00007f5a02a6b000)
+    libTKG3d.so.9 => /usr/local/lib/libTKG3d.so.9 (0x00007f5a0274d000)
+    libTKTopAlgo.so.9 => /usr/local/lib/libTKTopAlgo.so.9 (0x00007f5a022df000)
+    /lib64/ld-linux-x86-64.so.2 (0x00007f5a05c91000)
+    libTKGeomAlgo.so.9 => /usr/local/lib/libTKGeomAlgo.so.9 (0x00007f5a01bb5000)
 $
 ```
 (use otool on OSX).
@@ -211,24 +220,22 @@ Remember that all classes and methods should be wrapped. There's not reason to e
 
 Let's take the simplest example: the wrapper definition for the 'gp' module. It is defined on line 203 with:
 
-``` python
-('gp', [], []),
-```
+    ('gp', [], []),
+
 This means that all classes, and all member functions, will be made available for the wrapper. 
 
 For instance, let's go on with the 'gp' module definition:
-````python
-('gp', [], [],
-            {'gp_Torus': 'Coefficients'}),
-```
 
-Ano-ther example is the math module:
-```
-('math', ['Adaptor3d'], ['math_SingleTab'],
-            {'math_NewtonMinimum': 'IsConvex',
-             'math_NewtonFunctionSetRoot': 'StateNumber',
-             'math_GlobOptMin': 'isDone'}),
-```
+    ('gp', [], [], {'gp_Torus': 'Coefficients'}),
+
+Another example is the math module:
+
+
+    ('math', ['Adaptor3d'], ['math_SingleTab'],
+     {'math_NewtonMinimum': 'IsConvex',
+      'math_NewtonFunctionSetRoot': 'StateNumber',
+      'math_GlobOptMin': 'isDone'}),
+
 
 The ['Adaptor3d'] list means that all Adaptor3d_*.hxx headers will be added to the SWIG file. These headers are required in order to compile the generated C++ file from the SWIG file.
 
@@ -253,6 +260,7 @@ The 'IsConvex' method of the math_NewtonMinimum class is excluded from the wrapp
 
 Some other important tips.
 
-# 3. Making your own wrapper
+Making your own wrapper
+-----------------------
 
 This section describes how to upgrade the wrapper for an oce version change.
